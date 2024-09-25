@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
+
 # 모델 클래스 가져오기
 from .models import Article
 from .forms import ArticleForm
+
 
 # Create your views here.
 def index(request):
@@ -83,10 +85,10 @@ def delete(request, pk):
 #     }
 #     return render(request, 'articles/new.html', context)
 
-    # 과거 코드
-    # title = request.POST.get('title')
-    # content = request.POST.get('content')
-    # article = Article(title=title, content=content)
+# 과거 코드
+# title = request.POST.get('title')
+# content = request.POST.get('content')
+# article = Article(title=title, content=content)
 
 # def edit(request, pk):
 #     article = Article.objects.get(pk=pk)
@@ -112,11 +114,9 @@ def delete(request, pk):
 #     }
 #     return render(request, 'articles/edit.html', context)
 
-    # 과거 코드
-    # title = request.POST.get('title')
-    # content = request.POST.get('content')
-    # article.title = title
-    # article.content = content
-    # article.save()
-
-
+# 과거 코드
+# title = request.POST.get('title')
+# content = request.POST.get('content')
+# article.title = title
+# article.content = content
+# article.save()
