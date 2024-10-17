@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, get_list_or_404
 
 from .models import Article, Comment
 from .serializers import ArticleListSerializer, ArticleSerializer, CommentSerializer
@@ -11,7 +11,8 @@ from .serializers import ArticleListSerializer, ArticleSerializer, CommentSerial
 @api_view(['GET', 'POST'])
 def article_list(request):
     if request.method == 'GET':
-        articles = Article.objects.all()
+        # articles = Article.objects.all()
+        articles = get_list_or_404(Article)
         serializer = ArticleListSerializer(articles, many=True)
         return Response(serializer.data)
 
@@ -47,7 +48,8 @@ def article_detail(request, article_pk):
 @api_view(['GET'])
 def comment_list(request):
     # 댓글 전체 조회
-    comments = Comment.objects.all()
+    # comments = Comment.objects.all()
+    comments = get_list_or_404(Comment)
     # 댓글 목록 쿼리셋을 직렬화 진행
     serializer = CommentSerializer(comments, many=True)
     return Response(serializer.data)
@@ -56,7 +58,8 @@ def comment_list(request):
 @api_view(['GET', 'DELETE', 'PUT'])
 def comment_detail(request, comment_pk):
     # 단일 댓글 조회
-    comment = Comment.objects.get(pk=comment_pk)
+    # comment = Comment.objects.get(pk=comment_pk)
+    comment = get_object_or_404(Comment, pk=comment_pk)
 
     if request.method == 'GET':
         # 단일 댓글 직렬화
@@ -77,7 +80,9 @@ def comment_detail(request, comment_pk):
 @api_view(['POST'])
 def comment_create(request, article_pk):
     # 게시글 조회 (어떤 게시글에 작성되는 댓글인지)
-    article = Article.objects.get(pk=article_pk)
+    # article = Article.objects.get(pk=article_pk)
+    article = get_object_or_404(Article, pk=article_pk)
+
     # 사용자 입력 데이터를 직렬화 (사용자가 입력한 댓글 데이터)
     serializer = CommentSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
